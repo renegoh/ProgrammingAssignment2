@@ -1,24 +1,22 @@
 ## RG20150719 R Programming Assignment #2
 ## Assignment: Caching the Inverse of a Matrix
 ##    Part one: to create a matrix function that can cache the inverse
-##    Part two: to check if matrix is the same and inverse already calculated: 
-##      - if so, retrieve the cached inverse matrix
+##    Part two: ## no need to check this--- to check if matrix is the same and inverse already calculated: 
+##      - retrieve the cached inverse matrix if it exists
 ##      - else compute the inverse of the new, given matrix
 ## 
 ##
 ### Part one 
 ## this function is a group of functions that
 ## - creates the matrix
-## - sets the value of the matrix
-## - gets the value of the matrix
-## - sets the value of the inverse
-## - gets the value of the inverse
+## - sets / gets the value of the matrix
+## - sets / gets the value of the inverse
 ## - this also contains the cached inverse if it exists
 ## --- Note to self: it's like a class in C#
 
 makeCacheMatrix <- function(x = matrix()) {
   
-  ##initialize m - create before using; do it here so the entire function has access to it
+  ## initialize m - create before using; do it here so the entire function has access to it
   ## this is the cached inversed matrix (cm)
       cm <- NULL 
   
@@ -49,44 +47,31 @@ makeCacheMatrix <- function(x = matrix()) {
 
 ### Part two 
 ## this is the actual function that inverses the given matrix
+  ## Return a matrix that is the inverse of 'x'
+
+  #  get stored inverse matrix (sm) : 
+  #  if is valid, return it
+  #  else calculate and store and return inverse
 
 cacheSolve <- function(x, ...) {
-  ## Return a matrix that is the inverse of 'x'
   
-  # get stored matrix and compare with given matrix
-  #   if identical, get and check stored inverse
-  #     if inverse is valid, return stored inverse
-  #   if different matrix or no stored inverse
-  #     calculate and store and return inverse
-  
-  sm <- x$get()
-  if (!is.null(sm)){
-    message ("this matrix is new")
-    
-    i <- solve(x)
-    x$set(x)
-    x$setinverse(i)
-    return (i)
+  #  get stored inverse matrix (sm) : 
+  sm <- x$getinverse()
+  if (!is.null(sm)) 
+  {# stored inverse matrix is valid, just return it.
+    message ("getting cached matrix")
+    return (sm)
   }
   else
-  {
-    #compare with given matrix
-    if (identical(sm,x)){
-      message("same matrix as before, just retrieving cached inverse")
-      i <- x$getinverse()
-      if (!isnull(i)){
-        message("getting cached inverse")
-        return(i)
-      }
-      else
-      {#cached inverse is missing?? just recalculate it
-        i <- solve(x)
-        x$set(x)
-        x$setinverse(i)
-        return (i)
-      }
-      
-    }
+  {# calculate and store and return inverse
+    ## first, retrieve the matrix
+      m <- x$get()
+    ## then solve it and store the inverse in i
+      i <- solve(m)
+    ## set the inverse as well
+      x$setinverse(i)
+    ## return the inverse
+      return (i)
   }
 
 }
